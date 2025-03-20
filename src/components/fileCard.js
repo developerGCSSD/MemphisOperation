@@ -75,7 +75,6 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 10,
     right: 20,
-    backgroundColor: 'grey',
   },
   checkboxWrapper: {
     borderWidth: 2,
