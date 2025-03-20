@@ -1,0 +1,73 @@
+/* eslint-disable react-native/no-inline-styles */
+import React, {useState} from 'react';
+import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
+import Icon from 'react-native-vector-icons/Ionicons';
+
+export default function HomeTabs() {
+  const [selectedTab, setSelectedTab] = useState('Today Assignment');
+
+  const tabs = [
+    {id: 'Today Assignment', label: 'Today Assignment'},
+    {id: 'Files Pending Reassign', label: 'Files Pending Reassign'},
+    {id: 'Weekly Schedule', label: 'Weekly Schedule'},
+  ];
+
+  return (
+    <View style={styles.container}>
+      {tabs.map(tab => (
+        <TouchableOpacity
+          key={tab.id}
+          style={[
+            styles.tab,
+            selectedTab === tab.id ? styles.selectedTab : styles.unselectedTab,
+          ]}
+          onPress={() => setSelectedTab(tab.id)}>
+          <Icon
+            name="albums"
+            size={30}
+            color={selectedTab === tab.id ? 'white' : 'black'}
+          />
+          <Text
+            style={[
+              styles.text,
+              {color: selectedTab === tab.id ? 'white' : 'black'},
+            ]}>
+            {tab.label}
+          </Text>
+        </TouchableOpacity>
+      ))}
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+  },
+  tab: {
+    width: 120,
+    height: 100,
+    borderRadius: 10,
+    alignItems: 'center',
+    justifyContent: 'center',
+    margin: '2%',
+    padding: '2%',
+  },
+  selectedTab: {
+    backgroundColor: '#5CB9E9', // Blue
+    borderWidth: 1,
+    borderColor: '#307BA1',
+  },
+  unselectedTab: {
+    backgroundColor: 'white', // Light Gray
+    borderWidth: 2,
+    borderColor: '#EBEEF5',
+  },
+  text: {
+    marginTop: 10,
+    fontSize: 10,
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
+});
