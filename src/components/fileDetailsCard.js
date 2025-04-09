@@ -1,16 +1,17 @@
 import React from 'react';
 import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
+import {useNavigation} from '@react-navigation/native'; // ✅ Hook import
 
 export default function FileDetailsCard({onClose}) {
+  const navigation = useNavigation(); // ✅ Hook usage
+
   return (
     <View style={styles.card}>
-      {/* Close Button */}
       <TouchableOpacity style={styles.closeButton} onPress={onClose}>
         <Icon name="times-circle" size={20} color="gray" />
       </TouchableOpacity>
 
-      {/* File Details */}
       <View style={styles.row}>
         <Icon name="folder" size={18} color="#F4C542" />
         <Text style={styles.label}> Files:</Text>
@@ -24,27 +25,25 @@ export default function FileDetailsCard({onClose}) {
       </View>
 
       <View style={styles.row}>
-        <Icon name="calendar-alt" size={18} color="gray" />
-        <Text style={styles.label}> Date:</Text>
-        <Text style={styles.value}>10/3/2025</Text>
-      </View>
-
-      <View style={styles.row}>
         <Icon name="user" size={18} color="#76C893" />
         <Text style={styles.label}> Guest Name:</Text>
         <Text style={styles.value}>Mohamed Ahmed</Text>
       </View>
 
-      <View style={styles.row}>
-        <Icon name="flag" size={18} color="red" />
-        <Text style={styles.label}> Nationality:</Text>
-        <Text style={styles.value}>United States</Text>
-      </View>
-
-      <View style={styles.row}>
-        <Icon name="user-tie" size={18} color="gold" />
-        <Text style={styles.label}> Operator:</Text>
-        <Text style={styles.value}>Ali Mohamed</Text>
+      <View style={styles.buttonContainer}>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() =>
+            navigation.navigate('Payment', {
+              fileName: '10222/2/2025',
+              paymentDate: '2025-03-25',
+              transactionId: 'TXN123456',
+              amount: '5400 EGP',
+              bank: '1234567890 - CIB',
+            })
+          }>
+          <Text style={styles.buttonText}>Payment Check</Text>
+        </TouchableOpacity>
       </View>
     </View>
   );
@@ -61,6 +60,7 @@ const styles = StyleSheet.create({
     shadowRadius: 5,
     elevation: 3, // For Android shadow
     margin: 10,
+    paddingBottom: 0,
   },
   closeButton: {
     position: 'absolute',
@@ -80,5 +80,22 @@ const styles = StyleSheet.create({
   value: {
     marginLeft: 5,
     color: '#555',
+  },
+  button: {
+    backgroundColor: '#5CB9E9',
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 8,
+    alignItems: 'center',
+    margin: '3%',
+    width: '50%',
+  },
+  buttonText: {
+    color: 'white',
+    fontSize: 10,
+    fontWeight: 'bold',
+  },
+  buttonContainer: {
+    alignItems: 'flex-end',
   },
 });

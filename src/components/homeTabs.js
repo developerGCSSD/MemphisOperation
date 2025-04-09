@@ -4,12 +4,12 @@ import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 export default function HomeTabs() {
-  const [selectedTab, setSelectedTab] = useState('Today Assignment');
+  const [selectedTab, setSelectedTab] = useState("Today's Files");
 
   const tabs = [
-    {id: 'Today Assignment', label: 'Today Assignment'},
-    {id: 'Files Pending Reassign', label: 'Files Pending Reassign'},
-    {id: 'Weekly Schedule', label: 'Weekly Schedule'},
+    {id: "Today's Files", label: "Today's Files"},
+    {id: '.......1', label: '.......1'},
+    {id: '.......2', label: '.......2'},
   ];
 
   return (
@@ -24,7 +24,7 @@ export default function HomeTabs() {
           onPress={() => setSelectedTab(tab.id)}>
           <Icon
             name="albums"
-            size={30}
+            size={20}
             color={selectedTab === tab.id ? 'white' : 'black'}
           />
           <Text
@@ -46,12 +46,12 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
   },
   tab: {
-    width: 120,
-    height: 100,
+    width: 100,
+    height: 60,
     borderRadius: 10,
     alignItems: 'center',
     justifyContent: 'center',
-    margin: '2%',
+    margin: '1%',
     padding: '2%',
   },
   selectedTab: {
