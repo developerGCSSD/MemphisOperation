@@ -42,7 +42,7 @@ export default function FileDetailsCard({onClose}) {
               bank: '1234567890 - CIB',
             })
           }>
-          <Text style={styles.buttonText}>Payment Check</Text>
+          <Text style={styles.buttonText}>View Payment</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -82,7 +82,7 @@ const styles = StyleSheet.create({
     color: '#555',
   },
   button: {
-    backgroundColor: '#5CB9E9',
+    backgroundColor: '#307BA1',
     paddingVertical: 10,
     paddingHorizontal: 20,
     borderRadius: 8,

@@ -11,7 +11,7 @@ const LoginButton = ({onPress}) => {
 
 const styles = StyleSheet.create({
   button: {
-    backgroundColor: '#5CB9E9',
+    backgroundColor: '#307BA1',
     padding: 15,
     borderRadius: 10,
     marginTop: 20,

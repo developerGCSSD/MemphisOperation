@@ -8,8 +8,8 @@ export default function HomeTabs() {
 
   const tabs = [
     {id: "Today's Files", label: "Today's Files"},
-    {id: '.......1', label: '.......1'},
-    {id: '.......2', label: '.......2'},
+    {id: 'Somthing1', label: 'Somthing1'},
+    {id: 'Somthing2', label: 'Somthing2'},
   ];
 
   return (
@@ -23,7 +23,7 @@ export default function HomeTabs() {
           ]}
           onPress={() => setSelectedTab(tab.id)}>
           <Icon
-            name="albums"
+            name="book"
             size={20}
             color={selectedTab === tab.id ? 'white' : 'black'}
           />
@@ -46,21 +46,22 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
   },
   tab: {
-    width: 100,
-    height: 60,
+    width: 110,
+    height: 70,
     borderRadius: 10,
     alignItems: 'center',
     justifyContent: 'center',
     margin: '1%',
+    marginBottom: '3%',
     padding: '2%',
   },
   selectedTab: {
-    backgroundColor: '#5CB9E9', // Blue
+    backgroundColor: '#307BA1',
     borderWidth: 1,
     borderColor: '#307BA1',
   },
   unselectedTab: {
-    backgroundColor: 'white', // Light Gray
+    backgroundColor: 'white',
     borderWidth: 2,
     borderColor: '#EBEEF5',
   },
