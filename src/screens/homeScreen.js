@@ -7,7 +7,7 @@ import {
   ScrollView,
 } from 'react-native';
 import HomeTabs from '../components/homeTabs';
-import FileCard from '../components/fileCard';
+import FileDetailsCard from '../components/fileDetailsCard';
 
 export default function Home({navigation}) {
   return (
@@ -19,20 +19,20 @@ export default function Home({navigation}) {
       <ScrollView
         contentContainerStyle={styles.scrollContainer}
         showsVerticalScrollIndicator={false}>
-        <FileCard />
-        <FileCard />
-        <FileCard />
-        <FileCard />
-        <FileCard />
-        <FileCard />
+        <FileDetailsCard />
+        <FileDetailsCard />
+        <FileDetailsCard />
+        <FileDetailsCard />
+        <FileDetailsCard />
+        <FileDetailsCard />
       </ScrollView>
 
       {/* Custom Button */}
-      <TouchableOpacity
+      {/* <TouchableOpacity
         style={styles.button}
         onPress={() => navigation.navigate('AssignmentDetails')}>
         <Text style={styles.buttonText}>Next</Text>
-      </TouchableOpacity>
+      </TouchableOpacity> */}
     </View>
   );
 }

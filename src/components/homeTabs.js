@@ -4,12 +4,12 @@ import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 export default function HomeTabs() {
-  const [selectedTab, setSelectedTab] = useState('Today Assignment');
+  const [selectedTab, setSelectedTab] = useState("Today's Files");
 
   const tabs = [
-    {id: 'Today Assignment', label: 'Today Assignment'},
-    {id: 'Files Pending Reassign', label: 'Files Pending Reassign'},
-    {id: 'Weekly Schedule', label: 'Weekly Schedule'},
+    {id: "Today's Files", label: "Today's Files"},
+    {id: 'Somthing1', label: 'Somthing1'},
+    {id: 'Somthing2', label: 'Somthing2'},
   ];
 
   return (
@@ -23,8 +23,8 @@ export default function HomeTabs() {
           ]}
           onPress={() => setSelectedTab(tab.id)}>
           <Icon
-            name="albums"
-            size={30}
+            name="book"
+            size={20}
             color={selectedTab === tab.id ? 'white' : 'black'}
           />
           <Text
@@ -46,21 +46,22 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
   },
   tab: {
-    width: 120,
-    height: 100,
+    width: 110,
+    height: 70,
     borderRadius: 10,
     alignItems: 'center',
     justifyContent: 'center',
-    margin: '2%',
+    margin: '1%',
+    marginBottom: '3%',
     padding: '2%',
   },
   selectedTab: {
-    backgroundColor: '#5CB9E9', // Blue
+    backgroundColor: '#307BA1',
     borderWidth: 1,
     borderColor: '#307BA1',
   },
   unselectedTab: {
-    backgroundColor: 'white', // Light Gray
+    backgroundColor: 'white',
     borderWidth: 2,
     borderColor: '#EBEEF5',
   },
