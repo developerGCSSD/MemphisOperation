@@ -1,5 +1,6 @@
 import {createSlice, createAsyncThunk} from '@reduxjs/toolkit';
 import axios from 'axios';
+import {saveToken} from '../../storage/loginAuth';
 
 export const loginUser = createAsyncThunk(
   'auth/loginUser',
@@ -38,6 +39,8 @@ const authSlice = createSlice({
       state.loading = false;
       state.error = false;
       state.user = action.payload;
+      const {token, id} = action.payload;
+      saveToken(token, id);
     });
     builder.addCase(loginUser.pending, state => {
       state.loading = true;

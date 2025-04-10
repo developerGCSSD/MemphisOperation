@@ -10,7 +10,7 @@ const LoginScreen = ({navigation}) => {
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false); // Track password visibility
   const dispatch = useDispatch();
-  const {loading, error, user} = useSelector(state => state.auth);
+  const {loading, error} = useSelector(state => state.auth);
 
   const handleLogin = () => {
     dispatch(loginUser({username, password}))
@@ -20,7 +20,6 @@ const LoginScreen = ({navigation}) => {
       })
       .catch(err => {
         Alert.alert('Login Failed', err?.detail || 'Please try again.');
-        console.log(error);
       });
   };
 
@@ -49,9 +48,7 @@ const LoginScreen = ({navigation}) => {
         loading={loading} // if your button supports showing loading
       />
       {error && (
-        <Text style={{color: 'red', marginTop: 10}}>
-          {error?.detail || 'Login error'}
-        </Text>
+        <Text style={styles.errorText}>{error?.detail || 'Login error'}</Text>
       )}
     </View>
   );
@@ -70,6 +67,10 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#307BA1',
     marginBottom: 40,
+  },
+  errorText: {
+    color: 'red',
+    marginTop: 10,
   },
 });
 
