@@ -1,38 +1,72 @@
-import React from 'react';
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  StyleSheet,
-  ScrollView,
-} from 'react-native';
+/* eslint-disable no-shadow */
+import React, {useState, useEffect} from 'react';
+import {View, Text, StyleSheet, ScrollView} from 'react-native';
+import {useDispatch, useSelector} from 'react-redux';
 import HomeTabs from '../components/homeTabs';
 import FileDetailsCard from '../components/fileDetailsCard';
+import {fetchUserFiles} from '../redux/reducers/userFiles';
+import {retrieveUser} from '../storage/loginAuth';
 
-export default function Home({navigation}) {
+export default function Home() {
+  const dispatch = useDispatch();
+  const {files, loading, error} = useSelector(state => state.files);
+  const [storedToken, setStoredToken] = useState(null);
+  const [profileId, setProfileId] = useState(null);
+  // console.log('kkkkk', profileId);
+  // console.log(files);
+
+  useEffect(() => {
+    const getUser = async () => {
+      const user = await retrieveUser();
+      console.log('fffff', user);
+
+      if (user) {
+        setProfileId(user.id); // ✅ Update state
+        setStoredToken(user.token);
+        console.log('jjjjjjjjjj', user.id);
+        console.log('tttttttttt', user.token);
+      } else {
+        console.log('No user found in storage');
+      }
+    };
+
+    getUser();
+  }, []);
+
+  useEffect(() => {
+    dispatch(fetchUserFiles());
+  }, [dispatch]);
+
+  if (loading) {
+    return <Text>Loading files...</Text>;
+  }
+
+  if (error) {
+    return <Text>Error: {error}</Text>;
+  }
+
   return (
     <View style={styles.container}>
       {/* HomeTabs Component */}
       <HomeTabs />
-
-      {/* Scrollable File Cards */}
+      {/* Scrollable Content */}
       <ScrollView
         contentContainerStyle={styles.scrollContainer}
         showsVerticalScrollIndicator={false}>
-        <FileDetailsCard />
-        <FileDetailsCard />
-        <FileDetailsCard />
-        <FileDetailsCard />
-        <FileDetailsCard />
-        <FileDetailsCard />
-      </ScrollView>
+        {/* {storedToken && profileId && (
+          <View style={styles.tokenContainer}>
+            <Text style={styles.tokenText}>Profile ID: {profileId}</Text>
+          </View>
+        )} */}
 
-      {/* Custom Button */}
-      {/* <TouchableOpacity
-        style={styles.button}
-        onPress={() => navigation.navigate('AssignmentDetails')}>
-        <Text style={styles.buttonText}>Next</Text>
-      </TouchableOpacity> */}
+        {files && files.length > 0 ? (
+          files.map((file, index) => (
+            <FileDetailsCard key={index} file={file} />
+          ))
+        ) : (
+          <Text>No files available</Text>
+        )}
+      </ScrollView>
     </View>
   );
 }
@@ -46,17 +80,13 @@ const styles = StyleSheet.create({
   scrollContainer: {
     paddingBottom: 20, // Adds spacing to prevent cutoff at the bottom
   },
-  button: {
-    backgroundColor: '#5CB9E9',
-    paddingVertical: 12,
-    paddingHorizontal: 20,
-    borderRadius: 8,
+  tokenContainer: {
+    marginTop: 20,
     alignItems: 'center',
-    margin: '5%',
+    marginBottom: 20,
   },
-  buttonText: {
-    color: 'white',
+  tokenText: {
     fontSize: 16,
-    fontWeight: 'bold',
+    color: 'green',
   },
 });

@@ -23,7 +23,7 @@ export default function HomeTabs() {
           ]}
           onPress={() => setSelectedTab(tab.id)}>
           <Icon
-            name="book"
+            name="briefcase"
             size={20}
             color={selectedTab === tab.id ? 'white' : 'black'}
           />
