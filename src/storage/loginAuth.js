@@ -1,35 +1,34 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const TOKEN_KEY = 'authToken';
-const PROFILE_ID_KEY = 'profileId';
+const USER_KEY = 'userKey';
 
 //* Save token to AsyncStorage
-export const saveToken = async (token, profileId) => {
+export const saveToken = async data => {
   try {
-    await AsyncStorage.setItem(TOKEN_KEY, token);
-    await AsyncStorage.setItem(PROFILE_ID_KEY, profileId.toString());
-    console.log('Token saved in storage');
+    const jsonValue = JSON.stringify(data);
+    await AsyncStorage.setItem(USER_KEY, jsonValue);
+    console.log('user saved in storage');
+    const dd = retrieveUser();
+    console.log('reeee', dd);
   } catch (error) {
-    console.error('Error saving token in storage', error);
+    console.error('Error saving user in storage', error);
   }
 };
 
 //* Retrieve the token saved from the storage
-export const retrieveToken = async () => {
+export const retrieveUser = async () => {
   try {
-    const token = await AsyncStorage.getItem(TOKEN_KEY);
-    const profileId = await AsyncStorage.getItem(PROFILE_ID_KEY);
-    return {token, profileId};
+    const user = await AsyncStorage.getItem(USER_KEY);
+    return user != null ? JSON.parse(user) : null;
   } catch (error) {
-    console.error("Can't retrieve the token back from the storage", error);
+    return null;
   }
 };
 
 //* Remove the token from the storage when LogOut
-export const removeToken = async () => {
+export const removeUser = async () => {
   try {
-    await AsyncStorage.removeItem(TOKEN_KEY);
-    await AsyncStorage.removeItem(PROFILE_ID_KEY);
+    await AsyncStorage.removeItem(USER_KEY);
     console.log('The token is removed from the storage');
   } catch (error) {
     console.error('The token is not removed', error);

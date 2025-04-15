@@ -1,6 +1,6 @@
 import {createSlice, createAsyncThunk} from '@reduxjs/toolkit';
 import axios from 'axios';
-import {saveToken} from '../../storage/loginAuth';
+import {removeUser, saveToken} from '../../storage/loginAuth';
 
 export const loginUser = createAsyncThunk(
   'auth/loginUser',
@@ -30,8 +30,13 @@ const authSlice = createSlice({
     error: null,
   },
   reducers: {
-    logout: state => {
+    logout: async state => {
+      await removeUser();
       state.user = null;
+    },
+
+    setUserFromStorage: (state, action) => {
+      state.user = action.payload;
     },
   },
   extraReducers: builder => {
@@ -39,8 +44,7 @@ const authSlice = createSlice({
       state.loading = false;
       state.error = false;
       state.user = action.payload;
-      const {token, id} = action.payload;
-      saveToken(token, id);
+      saveToken(state.user);
     });
     builder.addCase(loginUser.pending, state => {
       state.loading = true;
@@ -53,5 +57,5 @@ const authSlice = createSlice({
   },
 });
 
-export const {logout} = authSlice.actions;
+export const {logout, setUserFromStorage} = authSlice.actions;
 export default authSlice.reducer;
