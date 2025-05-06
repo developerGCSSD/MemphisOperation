@@ -43,11 +43,11 @@ export default function HomeTabs() {
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
-    justifyContent: 'space-around',
+    justifyContent: 'space-evenly',
   },
   tab: {
     width: 110,
-    height: 70,
+    height: 60,
     borderRadius: 10,
     alignItems: 'center',
     justifyContent: 'center',

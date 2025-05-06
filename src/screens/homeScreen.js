@@ -1,19 +1,40 @@
-/* eslint-disable no-shadow */
+/* eslint-disable no-unused-vars */
+
 import React, {useState, useEffect} from 'react';
-import {View, Text, StyleSheet, ScrollView} from 'react-native';
+import {View, Text, StyleSheet, ScrollView, Animated} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import HomeTabs from '../components/homeTabs';
 import FileDetailsCard from '../components/fileDetailsCard';
 import {fetchUserFiles} from '../redux/reducers/userFiles';
 import {retrieveUser} from '../storage/loginAuth';
+import WeeklyCalendar from '../components/weeklyCalendar'; // adjust path
+import moment from 'moment';
 
 export default function Home() {
   const dispatch = useDispatch();
   const {files, loading, error} = useSelector(state => state.files);
   const [storedToken, setStoredToken] = useState(null);
   const [profileId, setProfileId] = useState(null);
-  // console.log('kkkkk', profileId);
-  // console.log(files);
+  const [selectedDate, setSelectedDate] = useState(moment());
+  const [spinValue] = useState(new Animated.Value(0));
+
+  // Start rotating animation
+  useEffect(() => {
+    if (loading) {
+      Animated.loop(
+        Animated.timing(spinValue, {
+          toValue: 1,
+          duration: 1000,
+          useNativeDriver: true,
+        }),
+      ).start();
+    }
+  }, [loading, spinValue]);
+
+  const spin = spinValue.interpolate({
+    inputRange: [0, 1],
+    outputRange: ['0deg', '360deg'],
+  });
 
   useEffect(() => {
     const getUser = async () => {
@@ -37,29 +58,31 @@ export default function Home() {
     dispatch(fetchUserFiles());
   }, [dispatch]);
 
-  if (loading) {
-    return <Text>Loading files...</Text>;
-  }
-
-  if (error) {
-    return <Text>Error: {error}</Text>;
-  }
-
   return (
     <View style={styles.container}>
+      {/* Weekly Calendar */}
+      <WeeklyCalendar
+        selectedDate={selectedDate}
+        setSelectedDate={setSelectedDate}
+      />
+
       {/* HomeTabs Component */}
       <HomeTabs />
+
       {/* Scrollable Content */}
       <ScrollView
         contentContainerStyle={styles.scrollContainer}
         showsVerticalScrollIndicator={false}>
-        {/* {storedToken && profileId && (
-          <View style={styles.tokenContainer}>
-            <Text style={styles.tokenText}>Profile ID: {profileId}</Text>
+        {/* Custom Loading Indicator */}
+        {loading ? (
+          <View style={styles.loadingIndicator}>
+            <Animated.View
+              style={[styles.spinner, {transform: [{rotate: spin}]}]}
+            />
           </View>
-        )} */}
-
-        {files && files.length > 0 ? (
+        ) : error ? (
+          <Text style={styles.errorText}>Error: {error}</Text>
+        ) : files && files.length > 0 ? (
           files.map((file, index) => (
             <FileDetailsCard key={index} file={file} />
           ))
@@ -88,5 +111,24 @@ const styles = StyleSheet.create({
   tokenText: {
     fontSize: 16,
     color: 'green',
+  },
+  loadingIndicator: {
+    alignSelf: 'center',
+    marginTop: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  spinner: {
+    width: 30,
+    height: 30,
+    borderRadius: 25, // Circular shape
+    borderWidth: 5,
+    borderColor: '#307BA1', // Change color
+    borderTopColor: 'transparent', // Hide top portion for spinning effect
+  },
+  errorText: {
+    color: 'red',
+    textAlign: 'center',
+    fontSize: 16,
   },
 });
